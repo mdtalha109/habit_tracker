@@ -1,0 +1,29 @@
+{
+    "app": {
+      "title": "Habit Tracker"
+    },
+    "common": {
+      "something_went_wrong_please_try_again": "Something went wrong, Please try again later"
+    },
+    "auth": {
+      "login": "Login",
+      "register": "Register",
+      "logout": "Logout",
+      "email": "Email",
+      "name": "name",
+      "password": "Password",
+      "required": "{{required_entity}} is Required",
+      "invalid_email": "Invalid email address",
+      "dont_have_an_accout": "Don't have an account",
+      "already_have_an_account": "Already have an account",
+      "signup_here": "Signup here",
+      "login_here": "Login here",
+      "enter_your_credentials_to_access_your_account": "Enter your credentials to access your account",
+      "create_an_accout": "Create an Account",
+      "enter_your_details_to_get_started": "Enter your details to get started",
+      "email_is_already_in_used": "Email is already in used.",
+      "account_created_successfully": "Account created successfully.",
+      "invalid_credential": "email or password is incorrect"
+    }
+    
+}  
