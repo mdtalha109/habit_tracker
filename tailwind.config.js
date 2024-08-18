@@ -9,7 +9,7 @@ export default {
       colors: {
         primary: {
           light: '#1976d2',
-          DEFAULT: '#111827',
+          DEFAULT: '#c91bcf',
           dark: '#16161d',
         },
         primary_muted: {
@@ -22,6 +22,12 @@ export default {
           DEFAULT: "#f44336"
         }
 
+      },
+      backgroundImage: {
+        'primary-gradient': 'linear-gradient(100deg, #c91bcf, #7b0e7f)',
+      },
+      border: {
+        'primary-gradient': 'linear-gradient(100deg, #c91bcf, #7b0e7f)',
       }
     },
   },
