@@ -8,7 +8,7 @@ interface FirebaseError extends Error {
 export class RegisterUserUseCase {
   constructor(private userRepository: FirebaseAuthRepository) {}
 
-  async execute(email: string, username: string, password: string): Promise<{ success: boolean } | void> {
+  async execute(username: string, email: string, password: string): Promise<{ success: boolean } | void> {
     try {
       await this.userRepository.createUser(username, email, password);
       return { success: true };
