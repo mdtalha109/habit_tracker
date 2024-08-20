@@ -51,7 +51,7 @@ const Register: React.FC = () => {
               <div className='text-error'>{JSON.stringify(formik.errors.password)}</div>
             ) : null}
           </div>
-          <Button variant='primary-raised' type="submit">
+          <Button className='w-full' variant='primary-raised' type="submit">
 
             {loading ? <Spinner /> : translate('auth.register')}
           </Button>

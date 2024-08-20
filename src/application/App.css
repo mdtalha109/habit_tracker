@@ -1,0 +1,15 @@
+.primary_text_gradient {
+    background: linear-gradient(90deg, #c91bcf, #7b0e7f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+}
+
+@keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }

@@ -41,7 +41,9 @@ const Login: React.FC = () => {
               <div className='text-error'>{formik.errors.password}</div>
             ) : null}
           </div>
-          <Button variant='primary-raised' type="submit" disabled={false}>
+          
+         
+          <Button className='w-full' variant='primary-raised' type="submit" disabled={false}>
               { loading ? <Spinner/> : translate('auth.login')}
           </Button>
         </form>
