@@ -4,7 +4,7 @@ import AuthContext from 'presentation/context/authContext';
 
 const PublicRoute: React.FC = () => {
   const user = useContext(AuthContext)
-  return user?.currentUser ? <Navigate to="/dashboard" /> : <Outlet /> ;
+  return user?.currentUser ? <Navigate to="/" /> : <Outlet /> ;
 };
 
 export default PublicRoute;
