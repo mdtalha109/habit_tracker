@@ -20,6 +20,9 @@ export default {
 
         error: {
           DEFAULT: "#f44336"
+        },
+        secondary: {
+          DEFAULT: '#ff8a00'
         }
 
       },
