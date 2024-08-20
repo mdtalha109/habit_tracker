@@ -2,7 +2,7 @@ import React, { useState, createContext, useContext } from 'react';
 import { Habit } from 'domain/entities/habit';
 import { FirebaseHabitRepository } from 'infrastructure/repositories/habit/habitRepository';
 import { CreateHabit } from 'domain/useCase/habit/CreateHabit';
-import AuthContext from './authContext';
+import AuthContext, { AuthContextType } from './authContext';
 import { FilterHabitsByDateUseCase } from 'domain/useCase/habit/filterHabitByDate';
 import { MarkHabitAsDone } from 'domain/useCase/habit/MarkHabitAsDone';
 import { updateHabitSetting } from 'domain/useCase/habit/updateHabitSetting';
@@ -21,7 +21,7 @@ const HabitContext = createContext<HabitContextType | undefined>(undefined);
 
 export const HabitProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [habits, setHabits] = useState<Habit[]>([]);
-    const { currentUser }: any = useContext(AuthContext)
+    const { currentUser }: AuthContextType = useContext(AuthContext)
 
     const habitRepository = new FirebaseHabitRepository();
     const createHabit = new CreateHabit(habitRepository);
@@ -62,6 +62,7 @@ export const HabitProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const addHabit = async(habits) => {
         await createHabit.execute(habits)
+        if(!currentUser?.id) return;
         getAllHabits(currentUser.id);
     }
 
@@ -73,13 +74,15 @@ export const HabitProvider: React.FC<{ children: React.ReactNode }> = ({ childre
      
         const markHabitAsDoneUseCase = new MarkHabitAsDone(habitRepository);
         await markHabitAsDoneUseCase.execute(habitId, date);
+        if(!currentUser?.id) return;
         getAllHabits(currentUser.id);
     };
 
     const updateHabitSet= async(habitId: string, habit: Habit, freqChanged:boolean, effectiveDate) =>{
     
         await updateHabit.execute(habitId, habit, effectiveDate, freqChanged);
-        getAllHabits(currentUser.id);
+        if(!currentUser?.id) return;
+        getAllHabits(currentUser?.id);
     }
 
 

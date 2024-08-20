@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import AuthContext from 'presentation/context/authContext'
+import AuthContext, { AuthContextType } from 'presentation/context/authContext'
 import { DateNavigator } from '../../components/DateNavigatior'
 import { FaPlus } from 'react-icons/fa'
 import { useDateNavigation } from '../../hooks/useDateNavigation'
@@ -24,7 +24,7 @@ export function formatDate(currentDate) {
 }
 
 const HomePage = () => {
-  const { currentUser }: any = useContext(AuthContext)
+  const { currentUser }: AuthContextType = useContext(AuthContext)
   const { dates, currentDateIndex, navigateDates, selectDate } = useDateNavigation();
   const [loadingHabit, setLoadingHabit] = useState(false)
 
@@ -90,7 +90,7 @@ const HomePage = () => {
   return (
     <div className='flex flex-col gap-8'>
       <div className='mt-4 md:mt-8'>
-        <h1 className='text-2xl md:text-4xl font-bold'> 👋 {currentUser?.username}</h1>
+        <h1 className='text-2xl md:text-4xl font-bold'> Hey, {currentUser?.username} 👋</h1>
         <p className='text-primary_muted mt-2'>Success is built on daily habits.</p>
       </div>
       <DateNavigator
@@ -125,7 +125,10 @@ const HomePage = () => {
 
       <Modal isOpen={showForm} onClose={() => setShowForm(false)}>
         <Modal.Body>
-          <HabitForm habit={editingHabit} handleSubmit={(habit, freqChanged, effectiveDate) => handleFormSubmit(habit, freqChanged, effectiveDate)} />
+          <HabitForm 
+            habit={editingHabit} 
+            selectedHabitDate={dates[currentDateIndex]}
+            handleSubmit={(habit, freqChanged, effectiveDate) => handleFormSubmit(habit, freqChanged, effectiveDate)} />
         </Modal.Body>
       </Modal>
     </div>

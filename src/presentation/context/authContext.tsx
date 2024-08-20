@@ -5,11 +5,13 @@ import { doc, getDoc } from 'firebase/firestore';
 import { User } from 'domain/entities/user';
 import { User as FirebaseUser } from 'firebase/auth';
 
-interface AuthContextType {
+export interface AuthContextType {
   currentUser: User | null;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType>({
+  currentUser: null,
+});
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -20,11 +22,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user: FirebaseUser | null) => {
+    
       if (user) {
         try {
           const docRef = doc(db, 'Users', user.uid);
           const docSnap = await getDoc(docRef);
-
+          
           if (docSnap.exists()) {
             const userData = docSnap.data();
             setCurrentUser({
