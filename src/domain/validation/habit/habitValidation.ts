@@ -7,5 +7,5 @@ export const habitValidation = Yup.object({
     .of(Yup.number().min(0).max(6))
     .min(1, 'Please select at least one day')
     .required('Please select at least one day'),
-  frequency: Yup.number().min(1, 'Frequency must be at least 1').required('Number of times per day is required'),
+  frequency: Yup.number().min(1, 'Frequency must be at least 1').required('Number of times is required'),
 });
