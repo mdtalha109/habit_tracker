@@ -12,11 +12,11 @@ interface ButtonProps {
 }
 
 const buttonVariants = cva(
-  `p-2 w-full  inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold outline-2 outline-offset-2 focus:outline-black focus:outline-none text-sm`,
+  `p-2  inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold outline-2 outline-offset-2 focus:outline-black focus:outline-none text-sm`,
   {
     variants: {
       variant: {
-        'primary-raised': "text-white bg-primary-gradient hover:bg-blue-600 duration-150",
+        'primary-raised': "text-white bg-primary-gradient hover:bg-bg-primary-gradient duration-150",
         'primary': 'text-dark hover:bg-primary-gradient hover:text-white border border-primary duration-150',
 
         'save-raised': "bg-green-600 text-white",
