@@ -1,0 +1,43 @@
+.habit-tracker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .date-navigator {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .dates {
+    display: flex;
+    overflow-x: auto;
+    margin: 0 10px;
+  }
+  
+ 
+  .date-item.selected {
+    background-color: #007BFF;
+    color: white;
+    border-radius: 4px;
+  }
+  
+  button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  
+  .habits {
+    width: 100%;
+    text-align: center;
+  }
+  

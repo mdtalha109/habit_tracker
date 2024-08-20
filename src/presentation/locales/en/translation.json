@@ -24,6 +24,19 @@
       "email_is_already_in_used": "Email is already in used.",
       "account_created_successfully": "Account created successfully.",
       "invalid_credential": "email or password is incorrect"
+    },
+    "habit":{
+      "streak": "streak",
+      "longest_streak": "Longest streak",
+      "completed": "Completed",
+      "remaining": "{{count}} of {{frequency}} remaining",
+      "frequency_of_habit": "Frequency of habit",
+      "select_days": "Select Days",
+      "habit_name": "Habit Name",
+      "create_habit": "Create Habit",
+      "update_habit": "Update Habit",
+      "no_habit_scheduled_message": "There is no habit scheduled",
+      "try_adding_new_habits": "Try adding new activities"
     }
     
 }  
