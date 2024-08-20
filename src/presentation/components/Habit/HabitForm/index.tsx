@@ -8,9 +8,11 @@ import useHabitForm from './hooks/useHabitForm';
 
 interface HabitFormProps {
     habit?: Partial<Habit>;
+    selectedHabitDate: Date,
     handleSubmit: (habit: Partial<Habit>, freqChanged: boolean, effectiveDate?:string) => void;
 }
-const HabitForm = ({ habit, handleSubmit }: HabitFormProps) => {
+const HabitForm = ({ habit, selectedHabitDate, handleSubmit }: HabitFormProps) => {
+    
 
     const {
         formik,
@@ -22,7 +24,7 @@ const HabitForm = ({ habit, handleSubmit }: HabitFormProps) => {
         setEffectiveDate,
         showEffectiveDateInput,
         handleFrequencyChange
-    } = useHabitForm({ habit, handleSubmit });
+    } = useHabitForm({ habit, selectedHabitDate, handleSubmit });
 
     const frequencies: Array<'Daily' | 'Weekly'> = ['Daily', 'Weekly'];
 

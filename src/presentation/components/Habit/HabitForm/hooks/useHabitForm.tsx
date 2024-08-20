@@ -9,13 +9,19 @@ import { useTranslation } from 'react-i18next';
 
 interface UseHabitFormProps {
   habit?: Partial<Habit>;
+  selectedHabitDate: Date,
   handleSubmit: (habit: Partial<Habit>, freqChanged: boolean, effectiveDate?:string) => void;
 }
 
-const useHabitForm = ({ habit, handleSubmit }: UseHabitFormProps) => {
+const useHabitForm = ({ habit, selectedHabitDate, handleSubmit }: UseHabitFormProps) => {
+
+  const date = new Date(selectedHabitDate)
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); 
+  const day = String(date.getDate()).padStart(2, '0');
 
   const [initialFrequency] = useState<number>(habit?.frequency || 1);
-  const [effectiveDate, setEffectiveDate] = useState<string | undefined>(undefined);
+  const [effectiveDate, setEffectiveDate] = useState<string | undefined>(`${year}-${month}-${day}`);
   const [showEffectiveDateInput, setShowEffectiveDateInput] = useState<boolean>(false);
 
 
