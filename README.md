@@ -1,50 +1,60 @@
-# React + TypeScript + Vite
+# Habit Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Table of Contents
 
-Currently, two official plugins are available:
+- [Introduction](#introduction)
+- [Features](#features)
+- [Installation](#installation)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Introduction
 
-## Expanding the ESLint configuration
+Habit Tracker is a powerful application designed to help users build and maintain habits. The application supports tracking habits on a daily and weekly basis, calculates streaks, and provides insights into habit completion over time.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features
 
-- Configure the top-level `parserOptions` property like this:
+- **Daily Habit Tracking**: Track habits that need to be completed every day. The app calculates streaks and tracks progress.
+- **Weekly Habit Tracking**: Track habits that need to be completed a certain number of times per week.
+- **Streak Calculation**: Automatically calculates and updates streaks based on habit completion.
+- **Flexible Habit Management**: Create and update customizable frequency.
+- **Completion History**: View the history of habit completions, including missed days.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Installation
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+#### Prerequisites
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- [Node.js](https://nodejs.org/) (version 14.x or later)
+- [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/)
+-  [Firebase Account](https://firebase.google.com/) (for authentication, database, and storage)
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+#### Steps
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/mdtalha109/habit_tracker
+   ```
+2. Navigate to the directory:
+   ```bash
+   cd habit_tracker
+   ```
+3. Install dependencies:
+   ```bash
+   cd habit_tracker
+   ```
+3. Setup firebase:
+   
+   - Create a new project in the [Firebase console](https://firebase.google.com/) 
+   - Add a web app to your Firebase project and copy the Firebase configuration
+   - Create a .env file in the root directory of your project and add your Firebase configuration as below:
+   
+      ```bash
+      VITE_FIREBASE_API_KEY=YOUR_FIREBASE_API_KEY
+      VITE_FIREBASE_AUTH_DOMAIN=YOUR_FIREBASE_AUTH_DOMAIN
+      VITE_FIREBASE_PROJECT_ID=YOUR_FIREBASE_PROJECT_ID
+      VITE_FIREBASE_STORAGE_BUCKET=YOUR_FIREBASE_STORAGE_BUCKET
+      VITE_FIREBASE_MESSAGING_SENDER_ID=YOUR_FIREBASE_MESSAGING_SENDER_ID
+      VITE_FIREBASE_APP_ID=YOUR_FIREBASE_APP_ID
+     ```
+ 3. Start the application:
+       ```bash
+       npm run dev
+       ```
