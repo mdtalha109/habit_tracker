@@ -31,18 +31,25 @@ export class Habit {
 
   // Update the frequency and maintain a history to track the status of the habit over time
   updateFrequency(newFrequency: number, date: Date): void {
+    const targetDate = this.normalizeDate(date);
+
+    this.frequency_history = this.frequency_history.filter(change => {
+        const changeDate = this.normalizeDate(new Date(change.date));
+        return changeDate.getTime() !== targetDate.getTime();
+    });
 
     this.frequency_history.push({
       date: date.toISOString(),
       frequency: newFrequency
     });
+
     this.frequency = newFrequency;
-  }
+}
 
   markAsDone(date: Date): void {
 
     if (!this.isAvailableOn(date)) {
-        throw new Error("Habit is not available on this date");
+      throw new Error("Habit is not available on this date");
     }
 
     const targetDate = this.normalizeDate(date);
@@ -50,41 +57,41 @@ export class Habit {
     const frequency = this.getFrequencyOn(date);
 
     if (this.tracking_type === 'Daily' && completedToday < frequency) {
-        this.completed_dates.push(date.toISOString());
-        this.last_completed_at = new Date(date);
+      this.completed_dates.push(date.toISOString());
+      this.last_completed_at = new Date(date);
 
-        if (completedToday + 1 == frequency) {  
-            this.updateStreak(targetDate);
-        }
+      if (completedToday + 1 == frequency) {
+        this.updateStreak(targetDate);
+      }
 
     } else if (this.tracking_type === 'Weekly') {
 
-        const startOfWeek = this.getStartOfWeek(date);
-        const endOfWeek = this.getEndOfWeek(date);
+      const startOfWeek = this.getStartOfWeek(date);
+      const endOfWeek = this.getEndOfWeek(date);
 
-        const completedThisWeek = this.completed_dates.filter(
-            completedDate => {
-                const normalizedDate = this.normalizeDate(new Date(completedDate));
-                return normalizedDate >= startOfWeek && normalizedDate <= endOfWeek;
-            }
-        ).length;
-
-        if (completedThisWeek < frequency) {
-
-            this.completed_dates.push(date.toISOString());
-            this.last_completed_at = new Date(date);
-
-            if (completedThisWeek + 1 === frequency) {
-                this.updateWeeklyStreak(targetDate);
-            }
-
+      const completedThisWeek = this.completed_dates.filter(
+        completedDate => {
+          const normalizedDate = this.normalizeDate(new Date(completedDate));
+          return normalizedDate >= startOfWeek && normalizedDate <= endOfWeek;
         }
+      ).length;
+
+      if (completedThisWeek < frequency) {
+
+        this.completed_dates.push(date.toISOString());
+        this.last_completed_at = new Date(date);
+
+        // if (completedThisWeek + 1 == frequency) {
+        this.updateWeeklyStreak(targetDate);
+        //}
+
+      }
     }
   }
 
   isCompleted(date: Date): boolean {
 
-    if(this.tracking_type == 'Daily'){
+    if (this.tracking_type == 'Daily') {
       return this.isCompletedOn(date)
     }
     else return this.isCompletedForWeek(date)
@@ -94,8 +101,8 @@ export class Habit {
 
     if (this.tracking_type === 'Daily') {
       return this.getRemainingDailyCount(date);
-    } 
-    
+    }
+
     else if (this.tracking_type === 'Weekly') {
       return this.getRemainingWeeklyCount(date);
     }
@@ -135,14 +142,14 @@ export class Habit {
   isCompletedForWeek(date: Date): boolean {
     const startOfWeek = this.getStartOfWeek(date);
     const endOfWeek = this.getEndOfWeek(date);
-  
+
     const completedThisWeek = this.completed_dates.filter(
       completedDate => {
         const normalizedDate = this.normalizeDate(new Date(completedDate));
         return normalizedDate >= startOfWeek && normalizedDate <= endOfWeek;
       }
     ).length;
-  
+
     return completedThisWeek >= this.getFrequencyOn(date);
   }
   //  Check how many times the user has performed that habit on a particular day.
@@ -159,7 +166,6 @@ export class Habit {
   }
 
   public getFrequencyOn(date: Date): number {
- 
     const sortedHistory = this.frequency_history
       .map(change => ({
         ...change,
@@ -169,25 +175,40 @@ export class Habit {
 
     const targetDate = this.normalizeDate(date);
 
-    const relevantChange = sortedHistory
-      .filter(change => this.normalizeDate(change.date) <= targetDate)
-    .pop(); 
+    if (this.tracking_type === 'Weekly') {
 
-    return relevantChange ? relevantChange.frequency : this.frequency;
+      const startOfWeek = this.getStartOfWeek(targetDate);
+      const endOfWeek = this.getEndOfWeek(targetDate);
+
+      const relevantChange = sortedHistory
+        .filter(change => {
+          const changeDate = this.normalizeDate(change.date);
+          return changeDate >= startOfWeek && changeDate <= endOfWeek;
+        })
+        .pop();
+
+      return relevantChange ? relevantChange.frequency : this.frequency;
+    } else {
+      // For Daily habits
+      const relevantChange = sortedHistory
+        .filter(change => this.normalizeDate(change.date) <= targetDate)
+        .pop();
+
+     
+
+      return relevantChange ? relevantChange.frequency : this.frequency;
+    }
   }
 
   updateStreak(date: Date): void {
     const yesterday = new Date(date);
     yesterday.setDate(date.getDate() - 1);
 
-    console.log("DEBUG LONGEST STREAK: before", this.longest_streak)
-
     while (!this.isAvailableOn(yesterday)) {
       if (yesterday < new Date(this.created_at)) {
-          this.streak = 1;
-          this.longest_streak = Math.max(this.streak, this.longest_streak);
-          console.log("DEBUG LONGEST STREAK: after updating longest_streak in while", this.longest_streak)
-          return;
+        this.streak = 1;
+        this.longest_streak = Math.max(this.streak, this.longest_streak);
+        return;
       }
       yesterday.setDate(yesterday.getDate() - 1);
     }
@@ -198,42 +219,45 @@ export class Habit {
       this.streak = 1;
     }
 
-    console.log("DEBUG LONGEST STREAK: after updating just streak: this.streak", this.streak)
-    console.log("DEBUG LONGEST STREAK: after updating just streak: this.longest_streak", this.longest_streak)
 
     this.longest_streak = Math.max(this.streak, this.longest_streak);
-    console.log("DEBUG LONGEST STREAK: after updating just longest_streak: this.longest_streak", this.longest_streak)
   }
 
   updateWeeklyStreak(date: Date): void {
     const startOfWeek = this.getStartOfWeek(date);
-    const endOfWeek = this.getEndOfWeek(date);
+    // const endOfWeek = this.getEndOfWeek(date);
+
+    if (this.isHabitCreatedThisWeek(startOfWeek)) {
+      
+        this.streak = this.streak + 1;
+        this.longest_streak = Math.max(this.streak, this.longest_streak);
     
-    const completedInWeek = this.completed_dates.filter(
-      completedDate => {
-        const normalizedDate = this.normalizeDate(new Date(completedDate));
-        return normalizedDate >= startOfWeek && normalizedDate <= endOfWeek;
-      }
-    ).length;
+    } else {
 
-    if (completedInWeek >= this.frequency) {
-      const lastWeek = new Date(startOfWeek);
-      lastWeek.setDate(startOfWeek.getDate() - 7);
+        const lastWeek = new Date(startOfWeek);
+        lastWeek.setDate(startOfWeek.getDate() - 7);
 
-      if (this.isWeekStreakMaintained(lastWeek)) {
-        this.streak += 1;
-      } else {
-        this.streak = 1;
-      }
+        if (this.isWeekStreakMaintained(lastWeek)) {
+          this.streak += 1;
+        } else {
+          this.streak = 1;
+        }
 
-      this.longest_streak = Math.max(this.streak, this.longest_streak);
+        this.longest_streak = Math.max(this.streak, this.longest_streak);
+   
     }
   }
+
+  isHabitCreatedThisWeek(startOfWeek: Date): boolean {
+   
+    const habitCreationDate = this.normalizeDate(new Date(this.created_at));
+    return habitCreationDate >= startOfWeek;
+}
 
   isWeekStreakMaintained(date: Date): boolean {
     const startOfWeek = this.getStartOfWeek(date);
     const endOfWeek = this.getEndOfWeek(date);
-    
+
     const completedInWeek = this.completed_dates.filter(
       completedDate => {
         const normalizedDate = this.normalizeDate(new Date(completedDate));
