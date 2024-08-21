@@ -35,7 +35,9 @@ export class FirebaseHabitRepository implements HabitRepository {
 
     await updateDoc(habitDocRef, {
       streak: habit.streak,
-      last_completed_at: habit.last_completed_at?.toISOString() || null,
+      last_completed_at: typeof habit.last_completed_at === 'string' 
+      ? habit.last_completed_at 
+      : habit.last_completed_at?.toISOString() || null,
       completed_dates: habit.completed_dates.map(date => date),
       selected_days: habit.selected_days,
       name: habit.name,
