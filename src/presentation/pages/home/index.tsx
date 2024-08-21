@@ -70,6 +70,7 @@ const HomePage = () => {
         error: 'ops! Please try again',
       });
       setShowForm(false);
+      setEditingHabit(undefined)
     } else {
 
       let addedHabit = addHabit(habit);
