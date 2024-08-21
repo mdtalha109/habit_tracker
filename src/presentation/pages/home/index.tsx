@@ -124,7 +124,7 @@ const HomePage = () => {
         <FaPlus />
       </Button>
 
-      <Modal isOpen={showForm} onClose={() => setShowForm(false)}>
+      <Modal isOpen={showForm} onClose={() => {setShowForm(false), setEditingHabit(undefined)}}>
         <Modal.Body>
           <HabitForm 
             habit={editingHabit} 
