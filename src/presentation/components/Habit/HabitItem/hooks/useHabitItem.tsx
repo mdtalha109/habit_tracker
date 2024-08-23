@@ -12,7 +12,7 @@ const useHabitItem = ( habit, markHabitAsDone, selectedHabitDate) => {
         await toast.promise(habitMarkedAsDone, {
             loading: 'Marking your habit as done',
             success: 'Habit updated successfully',
-            error: 'ops! Please try again',
+            error: (err) => `${err.message || 'ops! Please try again' }`,
         });
     }
     return {

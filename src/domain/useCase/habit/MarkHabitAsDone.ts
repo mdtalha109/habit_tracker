@@ -23,9 +23,10 @@ export class MarkHabitAsDone {
     );
 
     if (!habit.isCompletedOn(date)) {
-    
       habit.markAsDone(date);
       await this.habitRepository.updateHabit(habit);
+    } else{
+      throw new Error('This habit has already been completed for today.');
     }
   }
 }
