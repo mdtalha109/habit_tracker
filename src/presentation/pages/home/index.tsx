@@ -2,10 +2,7 @@ import { useContext, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import AuthContext, { AuthContextType } from 'presentation/context/authContext'
 import { DateNavigator } from '../../components/DateNavigatior'
-import { FaPlus } from 'react-icons/fa'
 import { useDateNavigation } from '../../hooks/useDateNavigation'
-import Button from 'presentation/components/ui/Button'
-
 import Modal from 'presentation/components/ui/Modal'
 import HabitForm from 'presentation/components/Habit/HabitForm'
 import HabitList from 'presentation/components/Habit/HabitList'
@@ -15,6 +12,7 @@ import { Habit } from 'domain/entities/habit'
 
 import HabitListSkeleton from 'presentation/components/Habit/HabitListSkeleton'
 import './index.css'
+import AddHabitButton from 'presentation/components/Habit/AddHabitButton'
 
 export function formatDate(currentDate) {
   const options = { weekday: 'short', day: 'numeric', month: 'short' };
@@ -117,12 +115,7 @@ const HomePage = () => {
         )}
       </div>
 
-      <Button
-        onClick={() => setShowForm(true)}
-        className='fixed bottom-10 right-10 md:bottom-20 md:right-20 text-2xl rounded-full p-4'
-        variant='primary-raised'>
-        <FaPlus />
-      </Button>
+      <AddHabitButton onClick={() => setShowForm(true)} />
 
       <Modal isOpen={showForm} onClose={() => {setShowForm(false), setEditingHabit(undefined)}}>
         <Modal.Body>
