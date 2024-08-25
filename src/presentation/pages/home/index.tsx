@@ -67,7 +67,7 @@ const HomePage = () => {
       await toast.promise(abc, {
         loading: 'hold on, we are saving your update',
         success: 'habit updated successfully',
-        error: 'ops! Please try again',
+        error: (err) => `${JSON.stringify(err) || 'ops! Please try again'}`,
       });
       setShowForm(false);
       setEditingHabit(undefined)
